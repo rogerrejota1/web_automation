@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        python 'Python 3.11'
-    }
-
     environment {
         PLAYWRIGHT_BROWSERS_PATH = "${WORKSPACE}/playwright-browsers"
     }
@@ -13,7 +9,7 @@ pipeline {
         stage('Setup') {
             steps {
                 sh '''
-                    python -m venv .venv
+                    python3 -m venv .venv
                     . .venv/bin/activate
                     pip install --upgrade pip
                     pip install -r requirements.txt
