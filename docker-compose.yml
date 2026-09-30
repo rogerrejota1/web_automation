@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  test:
+    build: .
+    volumes:
+      - ./test-results:/app/test-results
+      - ./reports:/app/reports
+      - ./playwright-report:/app/playwright-report
+    environment:
+      - BASE_URL=https://www.saucedemo.com
+    command: pytest --junitxml=test-results/results.xml --html=reports/report.html --self-contained-html
+
+  test-headed:
+    build: .
+    volumes:
+      - ./test-results:/app/test-results
+      - ./reports:/app/reports
+      - ./playwright-report:/app/playwright-report
+    environment:
+      - BASE_URL=https://www.saucedemo.com
+      - PLAYWRIGHT_HEADLESS=false
+    command: pytest --junitxml=test-results/results.xml --html=reports/report.html --self-contained-html
+
+  test-debug:
+    build: .
+    volumes:
+      - ./test-results:/app/test-results
+      - ./reports:/app/reports
+      - ./playwright-report:/app/playwright-report
+      - .:/app
+    environment:
+      - BASE_URL=https://www.saucedemo.com
+      - PLAYWRIGHT_HEADLESS=false
+    command: pytest --headed --slowmo=1000
+    stdin_open: true
+    tty: true

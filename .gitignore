@@ -13,6 +13,11 @@ test-results/
 # Playwright
 playwright-report/
 blob-report/
+playwright-browsers/
+
+# Docker
+.docker/
+docker-compose.override.yml
 
 # IDE
 .vscode/
