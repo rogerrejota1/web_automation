@@ -30,14 +30,7 @@ pipeline {
         stage('Publish Results') {
             steps {
                 junit 'test-results/results.xml'
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'reports',
-                    reportFiles: 'report.html',
-                    reportName: 'Playwright Test Report'
-                ])
+                archiveArtifacts artifacts: 'reports/report.html', allowEmptyArchive: true
             }
         }
     }
@@ -47,11 +40,7 @@ pipeline {
             cleanWs()
         }
         failure {
-            emailext (
-                subject: "Jenkins Build Failed: ${JOB_NAME} - ${BUILD_NUMBER}",
-                body: "Build failed: ${BUILD_URL}",
-                to: "${EMAIL_RECIPIENTS}"
-            )
+            echo "Build failed: ${BUILD_URL}"
         }
     }
 }
